@@ -1,8 +1,6 @@
 #The import statements
 from flask import  Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import os
-import html
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from bs4 import BeautifulSoup
