@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<section id="main">
+  <div class="container">
+    <div class="row" style="padding: 2rem 0 0 0">
+      <div class="col-lg-7">
+        <div class="title d-flex">
+          <h2>{{story_name}}</h2>
+          <a href="{{url_for('edit_story', id=story_id)}}" style="color:green;"><p>Edit Story</p></a>
+        </div><br><br>
+        <a href="{{url_for('add_new_post', id=story_id)}}"><button onclick="addPage()" class="btn btn-rounded btn-secondary">Add Page</button></a>
+        <div class="edit_elements"><br>
+          {% for detail in details%}
+          <div>
+            <h2>Page {{detail.index}}</h2>
+            <p>{{detail.story}}</p>
+            <div class="d-flex  justify-content-between">
+              <a href="{{url_for('delete_page', id=detail.id, story_id=story_id)}}"><button class="btn btn-sm float-left" style="font-weight: bold; color:red;">Delete</button></a>
+              <a href="{{url_for('edit_post', id=detail.id, story_id=story_id)}}">
+                <button class="btn btn-md btn-success float-right">Edit Page</button></a>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="" style="margin-top: 4rem;">
+          <div class="row">
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+<script>
+  function deletePost(id){
+    fetch('/')
+  }
+</script>
+</body>
+</html>

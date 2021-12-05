@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid">
+    <div class="row" style="height: 100%;">
+      <div class="col-lg" style="padding: 0 4rem;">
+        <div style="padding: 4rem 0">
+          <input class="form-control">
+        </div>
+        <div class="row" style="height: 50%; overflow-y: scroll;">
+<!--           <div class="col-lg-2" style=" margin-left:0rem;">-->
+<!--            <div style="box-shadow: 1px 1px 5px#888888; width: 150px; height: 180px;  margin-bottom:3rem;">-->
+<!--              <h2>New</h2>-->
+<!--            </div>-->
+<!--           </div>-->
+          {% for item in data %}
+           {% if item.index%4 == 0   %}
+            {% if item.index == 0 %}
+            <div class="col-lg-2" style=" margin-left:0rem;">
+             <a href="{{url_for('add_new_story')}}"  style="text-decoration: none; color:green; ">
+            <div style=" box-shadow: 1px 1px 5px#888888; width: 150px; height: 180px;  margin-bottom:2rem;">
+              <div class="justify-content-center d-flex">
+                <h3 style="text-decoration:none; margin: 2.3rem 0;">New</h3>
+              </div>
+                 <hr/>
+                 <div class="justify-content-center d-flex" style="margin-top: 1rem;">
+                      <p>Add a new story</p>
+                  </div>
+            </div>
+               </a>
+        </div>
+
+            {% else %}
+            <div class="col-lg-2" style=" margin-left:0rem;">
+             <a href="{{url_for('detail', id=item.id)}}" style="text-decoration: none;">
+            <div style="background: url({{item.image}});
+             background-position: center; /* Center the image */
+              background-repeat: no-repeat; /* Do not repeat the image */
+              background-size: cover;
+              border-radius: 5px;
+            box-shadow: 1px 1px 5px#888888; width: 150px; height: 180px;  margin-bottom:3rem;">
+              <div class="justify-content-center">
+              </div>
+            </div>
+               </a>
+        </div>
+            {% endif %}
+          {%else%}
+          <div class="col-lg-2" style=" margin-left:3rem;">
+             <a href="{{url_for('detail', id=item.id)}}">
+            <div style="background: url({{item.image}});
+             background-position: center; /* Center the image */
+              background-repeat: no-repeat; /* Do not repeat the image */
+              background-size: cover;
+            box-shadow: 1px 1px 5px#888888; width: 150px; height: 180px;  margin-bottom:3rem;
+            border-radius: 5px;
+">
+              <div>
+              </div>
+            </div>
+               </a>
+          </div>
+           {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
