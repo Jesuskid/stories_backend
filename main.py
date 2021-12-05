@@ -13,11 +13,11 @@ from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
 from helper_functions import upload_image
 import base64
-
+import os
 
 app = Flask(__name__)
 app.secret_key = 'ksjkdbjhwvryf7ksmdms'
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', "sqlite:///data.db")
 
 IMG_API_KEY = 'c20b9a20348541665dbd0c99a2c8f04d'
 
