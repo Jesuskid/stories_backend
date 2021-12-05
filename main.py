@@ -9,9 +9,23 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, FileField, Label
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
-from helper_functions import upload_image
 import base64
 import os
+
+import requests
+
+def upload_image(image_b64, IMG_API_KEY):
+    params = {
+        'key':IMG_API_KEY,
+        'image': image_b64,
+
+    }
+    response = requests.post(url='https://api.imgbb.com/1/upload', data=params)
+    data = response.json()
+    list_data = data['data']
+    print(list_data['url'])
+    return list_data['url']
+
 
 
 app = Flask(__name__)
