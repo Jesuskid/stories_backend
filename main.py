@@ -73,6 +73,12 @@ class CreateStoryForm(FlaskForm):
     story = CKEditorField("Blog Content", validators=[DataRequired()])
     submit = SubmitField("Submit Post")
 
+class EditStoryForm(FlaskForm):
+    title = StringField("Blog Post Title")
+    img_url = StringField("Blog Image URL")
+    story = StringField("Edit", validators=[DataRequired()])
+    submit = SubmitField("Submit Post")
+
 class CreateStoryBookForm(FlaskForm):
     title = StringField("Name")
     img_url = FileField("Image Url")
@@ -302,7 +308,7 @@ def add_new_story():
 @app.route("/edit-story/<int:id>", methods=['GET', 'POST'])
 def edit_story(id):
     story = Stories.query.get(id)
-    form = CreateStoryForm(
+    form = EditStoryForm(
         title=story.name,
         story=story.genre,
         img_url=story.image
