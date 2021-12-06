@@ -21,6 +21,7 @@ def upload_image(image_b64, IMG_API_KEY):
 
     }
     response = requests.post(url='https://api.imgbb.com/1/upload', data=params)
+    print(response.status_code)
     data = response.json()
     list_data = data['data']
     print(list_data['url'])
