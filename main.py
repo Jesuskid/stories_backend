@@ -135,7 +135,7 @@ def fetch_popular():
     print(genre)
     print(url)
     if url == None:
-        stories = Stories.query.filter_by(genre=genre).all()
+        stories =  Stories.query.filter_by(genre=genre).all()
     else:
         stories = Stories.query.filter(Stories.name.like(url+'%')).filter_by(genre=genre).all()
     data = []
