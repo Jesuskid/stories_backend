@@ -42,7 +42,7 @@ db = SQLAlchemy(app)
 class Stories(db.Model):
     __tablename__ = 'stories'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     image = db.Column(db.String(300), nullable=False)
     genre = db.Column(db.String(30), nullable=False)
     sub_genre = db.Column(db.String(120), nullable=True)
