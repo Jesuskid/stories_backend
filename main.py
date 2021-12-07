@@ -328,11 +328,18 @@ def edit_story(id):
         return redirect(url_for("home"))
     return render_template("add_st.html", form=form, is_edit=True)
 
+@app.route('/delete_story/<int:id>')
+def delete_story(id):
+    pass
 
 #Upload story art to the site
-@app.route('/story_art')
-def story_art():
-    return render_template('image.html')
+@app.route('/upload_story_art')
+def upload_story_art():
+    data = [{'index': 0, 'id': 0,
+             'name': 'New',
+             'genre': 'new',
+             'image': 'new'}]
+    return render_template('image.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

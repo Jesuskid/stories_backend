@@ -11,11 +11,16 @@
   <div class="container">
     <div class="row" style="padding: 2rem 0 0 0">
       <div class="col-lg-7">
-        <div class="title d-flex">
-          <h2>{{story_name}}</h2>
+        <a style="text-decoration: none;" href="{{url_for('home')}}">< Back</a>
+          <h2>{{story_name}}</h2><br>
+        <div class="title d-flex justify-content-between" style="width:50%;">
+           <a href="" style="color:red;"><p>Delete Story</p></a>
           <a href="{{url_for('edit_story', id=story_id)}}" style="color:green;"><p>Edit Story</p></a>
-        </div><br><br>
+          <a href="{{url_for('upload_story_art')}}" style="color:orange;"><p>Add Art</p></a>
+        </div><br>
+         <div class="title w-59 d-flex justify-content-between" style="width:60%;">
         <a href="{{url_for('add_new_post', id=story_id)}}"><button onclick="addPage()" class="btn btn-rounded btn-secondary">Add Page</button></a>
+         </div><br>
         <div class="edit_elements"><br>
           {% for detail in details%}
           <div>
