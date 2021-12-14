@@ -10,7 +10,9 @@ from wtforms import StringField, SubmitField, PasswordField, FileField, Label
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
 import base64
+from  sqlalchemy.sql.expression import func, select
 import os
+import random
 
 import requests
 
@@ -34,7 +36,7 @@ app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', "sqlite:///data.db").replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-IMG_API_KEY = 'c20b9a20348541665dbd0c99a2c8f04d'
+IMG_API_KEY = 'f4da122b5640b4280d177389928e6336'#'c20b9a20348541665dbd0c99a2c8f04d'
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
@@ -102,10 +104,11 @@ class CreateStoryBookForm(FlaskForm):
 def fetch():
     url = request.args.get('search')
     genre = request.args.get('genre')
+    numerber_of_stories = len(Stories.query.filter().all())
     if url == None:
-        stories = Stories.query.all()
+        stories = Stories.query.order_by(func.random()).limit(10).all()
     else:
-        stories = Stories.query.filter(Stories.name.like(url+'%')).all()
+        stories = Stories.query.filter(Stories.name.like(url+'%')).order_by(func.random()).limit(10).all()
     data = []
     for i in stories:
         id = i.id
@@ -128,7 +131,6 @@ def fetch():
             'story': story
         })
 
-
     rata = jsonify({'data': data})
     rata.headers.add("Access-Control-Allow-Origin", "*")
     return rata
@@ -141,7 +143,7 @@ def fetch_popular():
     print(genre)
     print(url)
     if url == None or url == '':
-        stories = Stories.query.filter_by(genre=genre).all()
+        stories = Stories.query.filter_by(genre=genre).order_by(func.random()).all()
         print(stories)
     else:
         stories = Stories.query.filter(Stories.name.like(url+'%')).filter_by(genre=genre).all()
@@ -330,7 +332,14 @@ def edit_story(id):
 
 @app.route('/delete_story/<int:id>')
 def delete_story(id):
-    pass
+    story_details = StoryDetails.query.filter_by(story_id=id)
+    for detail in story_details:
+        db.session.delete(detail)
+        db.session.commit()
+    story = Stories.query.get(id)
+    db.session.delete(story)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 #Upload story art to the site
 @app.route('/upload_story_art')
