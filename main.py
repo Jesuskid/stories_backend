@@ -6,7 +6,7 @@ from flask_ckeditor import CKEditor
 from bs4 import BeautifulSoup
 #Forms
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, FileField, Label
+from wtforms import StringField, SubmitField, PasswordField, FileField, Label, SelectField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
 import base64
@@ -41,6 +41,21 @@ IMG_API_KEY = 'f4da122b5640b4280d177389928e6336'#'c20b9a20348541665dbd0c99a2c8f0
 ckeditor = CKEditor(app)
 Bootstrap(app)
 db = SQLAlchemy(app)
+
+categories_list = [
+    ('African', 'African'),
+    ('Fantasy', 'Fantasy'),
+    ('History', 'History'),
+    ('Scifi', 'Scifi'),
+    ('FolkLore', 'FolkLore'),
+    ('Magical', 'Magical'),
+    ('Western', 'Western'),
+    ('MesoAmerican', 'MesoAmerican'),
+    ('Scary', 'Scary'),
+    ('Asian', 'Asian'),
+    ('FairyTales', 'FairyTales'),
+    ('Other', 'Other')
+]
 #Data base
 class Stories(db.Model):
     __tablename__ = 'stories'
@@ -78,7 +93,7 @@ class CreateStoryForm(FlaskForm):
 class EditStoryForm(FlaskForm):
     title = StringField("Blog Post Title")
     img_url = StringField("Blog Image URL")
-    story = StringField("Edit", validators=[DataRequired()])
+    genre = SelectField("genre", validators=[DataRequired()], choices=categories_list, default=categories_list[0])
     submit = SubmitField("Submit Post")
 
 class CreateStoryBookForm(FlaskForm):
@@ -86,7 +101,7 @@ class CreateStoryBookForm(FlaskForm):
     img_url = FileField("Image Url")
     img_url1 = StringField("Image Url")
     lable = Label(text='OR', field_id=1)
-    genre = StringField("genre")
+    genre = SelectField("genre", validators=[DataRequired()], choices=categories_list, default=categories_list[0])
     story = CKEditorField("Details", validators=[DataRequired()], default='Hello')
     submit = SubmitField("Submit Post")
 
@@ -299,7 +314,7 @@ def add_new_story():
         new_Story = Stories(
             name=form.title.data,
             image=imago,
-            genre=form.story.data,
+            genre=form.genre.data,
         )
         print(new_Story)
         db.session.add(new_Story)
@@ -325,7 +340,7 @@ def edit_story(id):
         #     image = upload_image(form.img_url1.data, IMG_API_KEY)
         story.name=form.title.data
         story.image=form.img_url.data
-        story.genre=form.story.data
+        story.genre=form.genre.data
         db.session.commit()
         return redirect(url_for("home"))
     return render_template("add_st.html", form=form, is_edit=True)
