@@ -198,7 +198,7 @@ def insert_detail():
 #fetch the details of a particular story using id
 @app.route('/fetch_detail/<int:id>')
 def fetch_detail(id):
-    stories = StoryDetails.query.filter_by(story_id=int(id)).order_by('desc').all()
+    stories = StoryDetails.query.filter_by(story_id=int(id)).order_by().all()
     story_name = Stories.query.get(id)
     data = [{'id': 0, 'fake': 'fake', 'name':story_name.name}]
     index = 1
