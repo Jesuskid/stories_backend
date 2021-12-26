@@ -193,11 +193,14 @@ def insert_detail():
     db.session.add(detail)
     db.session.commit()
     return jsonify('Status: 200')
+
+
 #fetch the details of a particular story using id
 @app.route('/fetch_detail/<int:id>')
 def fetch_detail(id):
     stories = StoryDetails.query.filter_by(story_id=int(id)).all()
-    data = [{'id': 0, 'fake': 'fake'}]
+    story_name = Stories.query.get(id=id)
+    data = [{'id': 0, 'fake': 'fake', 'name':story_name.name}]
     index = 1
     for st in stories:
         data.append({
@@ -327,7 +330,7 @@ def edit_story(id):
     story = Stories.query.get(id)
     form = EditStoryForm(
         title=story.name,
-        story=story.genre,
+        genre=story.genre,
         img_url=story.image
     )
     if form.validate_on_submit():
