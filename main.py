@@ -214,9 +214,25 @@ def fetch_detail(id):
     rata = jsonify({'data': data})
     return rata
 
-@app.route('/fetch_stories')
-def fetch_stories():
-    pass
+@app.route('/suggestion/<int:id>')
+def suggestion(id):
+    suggestions = Stories.query.order_by(func.random()).all()
+    data = []
+    print(suggestions)
+    for suggestion in suggestions:
+        if len(data) <= 0:
+            if (suggestion.id != id):
+                data.append(
+                    {
+                        'id': suggestion.id,
+                        'name': suggestion.name,
+                        'genre': suggestion.genre,
+                        'image': suggestion.image,
+                    }
+                )
+    rata = jsonify({'data': data})
+    return rata
+
 
 
 
