@@ -13,6 +13,7 @@ import base64
 from  sqlalchemy.sql.expression import func, select
 import os
 import random
+from  sqlalchemy import desc
 
 import requests
 
@@ -198,7 +199,7 @@ def insert_detail():
 #fetch the details of a particular story using id
 @app.route('/fetch_detail/<int:id>')
 def fetch_detail(id):
-    stories = StoryDetails.query.filter_by(story_id=int(id)).order_by().all()
+    stories = StoryDetails.query.filter_by(story_id=int(id)).order_by(desc(StoryDetails.id)).all()
     story_name = Stories.query.get(id)
     data = [{'id': 0, 'fake': 'fake', 'name':story_name.name}]
     index = 1
